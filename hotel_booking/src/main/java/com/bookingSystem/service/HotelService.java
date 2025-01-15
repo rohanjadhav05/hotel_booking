@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.bookingSystem.model.Availability;
 import com.bookingSystem.model.Hotel;
 import com.bookingSystem.model.Room;
 
@@ -36,5 +37,20 @@ public class HotelService {
         }
         return matchingHotels;
     }
-    
+    public List<Hotel> findAllAvailbleHotels(List<Hotel> hotel){
+        List<Hotel> availableHotels = new ArrayList<>();
+        for (Hotel h : hotel) {
+            for(Room room : h.getRooms()){
+                for(Availability avail : room.getAvailability()){
+                    if(avail.getIsBooked()){
+                        if(!availableHotels.contains(h)){
+                            availableHotels.add(h);
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+        return availableHotels;
+    }
 }

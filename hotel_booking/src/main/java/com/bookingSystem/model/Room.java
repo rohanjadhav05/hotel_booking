@@ -55,11 +55,21 @@ public class Room {
         }
         return -1;
     }
-
-    public void setAvailability(int index, boolean isBooked){
-        Availability avail = availability.get(index);
-        avail.setIsBooked(isBooked);
-        availability.set(index, avail);
-    }
     
+    // Get the difference between the checkIn and checkOut dates and update the availability list
+    public void findDifference(int index, LocalDate bookingStart, LocalDate bookingEnd){
+        Availability avail = availability.get(index);
+        if (avail.getIsBooked() && !avail.getStartDate().isAfter(bookingEnd) && !avail.getEndDate().isBefore(bookingStart)) {
+            if (avail.getStartDate().isBefore(bookingStart)) {
+                availability.add(new Availability(avail.getStartDate(), bookingStart.minusDays(1), true));
+            }
+            availability.add(new Availability(bookingStart, bookingEnd, false));
+            if (avail.getEndDate().isAfter(bookingEnd)) {
+                availability.add(new Availability(bookingEnd.plusDays(1), avail.getEndDate(), true));
+            }
+        } else {
+            availability.add(avail);
+        }
+        availability.remove(index);
+    }
 }

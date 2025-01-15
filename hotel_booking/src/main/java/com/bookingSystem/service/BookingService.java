@@ -9,6 +9,16 @@ import com.bookingSystem.model.User;
 import com.bookingSystem.util.BookingUtil;
 
 public class BookingService {
+
+    /**
+     * Creates a new booking.
+     * @param user
+     * @param room 
+     * @param hotel 
+     * @param checkIn
+     * @param checkOut
+     * @return Newly created booking object
+     */
     public Booking createBooking(User user, Room room, Hotel hotel, LocalDate checkIn, LocalDate checkOut) {
         String bookingId = BookingUtil.generateBookingId();
         return new Booking(bookingId, user, room, hotel, checkIn, checkOut);
