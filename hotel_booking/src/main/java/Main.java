@@ -19,7 +19,6 @@ public class Main {
     private static final List<Hotel> hotels = new ArrayList<>();
     private static final List<Booking> bookings = new ArrayList<>();
     private static final HotelService hotelService = new HotelService();
-    private static final BookingService bookingService = new BookingService();
 
     /**
      * Main method to run the hotel booking system.
@@ -358,7 +357,7 @@ public class Main {
         for (int i = 0; i < availableRooms.size(); i++) {
             System.out.println((i + 1) + ". " + availableRooms.get(i).getRoomType());
         }
-        System.out.print("Enter choice: ");
+        System.out.print("Enter choice : ");
         int roomChoice = Integer.parseInt(scanner.nextLine());
         Room selectedRoom = availableRooms.get(roomChoice - 1);
 
@@ -366,6 +365,7 @@ public class Main {
         selectedRoom.findDifference(index, checkInDate, checkOutDate);
         
         User user = new User(name, contactInfo);
+        BookingService bookingService = new BookingService();
         Booking booking = bookingService.createBooking(user, selectedRoom, selectedHotel, checkInDate, checkOutDate);
 
         bookings.add(booking);
