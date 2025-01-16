@@ -8,6 +8,9 @@ import com.bookingSystem.model.Room;
 import com.bookingSystem.model.User;
 import com.bookingSystem.util.BookingUtil;
 
+/**
+ * The BookingService class provides methods to create a new booking.
+ */
 public class BookingService {
 
     /**
