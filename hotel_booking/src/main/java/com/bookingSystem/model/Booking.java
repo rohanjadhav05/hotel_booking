@@ -10,22 +10,25 @@ public class Booking {
     private final User user;
     private final Room room;
     private final Hotel hotel;
+    private final Double bookingAmount;
     private final LocalDate checkIn;
     private final LocalDate checkOut;
 
     /**
-     * Constructor for Booking
+     * Constructor for Booking class
      * @param bookingId
      * @param user
      * @param room
      * @param hotel
+     * @param bookingAmount
      * @param checkIn
      * @param checkOut
      */
-    public Booking(String bookingId, User user, Room room, Hotel hotel, LocalDate checkIn, LocalDate checkOut) {
+    public Booking(String bookingId, User user, Room room, Hotel hotel, Double bookingAmount, LocalDate checkIn, LocalDate checkOut) {
         this.bookingId = bookingId;
         this.user = user;
         this.room = room;
+        this.bookingAmount = bookingAmount;
         this.hotel = hotel;
         this.checkIn = checkIn;
         this.checkOut = checkOut;
@@ -77,5 +80,13 @@ public class Booking {
      */
     public LocalDate getCheckOut() {
         return checkOut;
+    }
+
+    /**
+     * Getters for booking amount
+     * @return bookingAmount
+     */
+    public Double getBookingAmount() {
+        return bookingAmount;
     }
 }

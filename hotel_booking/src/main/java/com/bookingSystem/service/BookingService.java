@@ -14,16 +14,20 @@ import com.bookingSystem.util.BookingUtil;
 public class BookingService {
 
     /**
-     * Creates a new booking.
+     * Creates a new booking with the given user, room, hotel, check-in date, and check-out date.
      * @param user
-     * @param room 
-     * @param hotel 
+     * @param room
+     * @param hotel
      * @param checkIn
      * @param checkOut
-     * @return Newly created booking object
+     * @return booking object
      */
     public Booking createBooking(User user, Room room, Hotel hotel, LocalDate checkIn, LocalDate checkOut) {
         String bookingId = BookingUtil.generateBookingId();
-        return new Booking(bookingId, user, room, hotel, checkIn, checkOut);
+        long daysBetween = java.time.temporal.ChronoUnit.DAYS.between(checkIn, checkOut);
+        double bookingAmount = room.getPricePerNight() * daysBetween;
+        return new Booking(bookingId, user, room, hotel, bookingAmount, checkIn, checkOut);
     }
+
+
 }

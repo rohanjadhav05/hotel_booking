@@ -1,3 +1,4 @@
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -291,7 +292,7 @@ public class Main {
                 System.out.println("Location : "+booking.getHotel().getLocation());
                 System.out.println("Hotel : " + booking.getHotel().getName());
                 System.out.println("Room Type : " + booking.getRoom().getRoomType());
-                System.out.println("Price : "+booking.getRoom().getPricePerNight());
+                System.out.println("Price : "+booking.getBookingAmount());
                 System.out.println("Check-in : " + booking.getCheckIn());
                 System.out.println("Check-out : " + booking.getCheckOut());
                 System.out.println();
@@ -377,7 +378,7 @@ public class Main {
         System.out.println("Location : " + booking.getHotel().getLocation());
         System.out.println("Hotel : " + booking.getHotel().getName());
         System.out.println("Room Type : " + booking.getRoom().getRoomType());
-        System.out.println("Price : "+booking.getRoom().getPricePerNight());
+        System.out.println("Price : "+booking.getBookingAmount());
         System.out.println("Check-in : " + booking.getCheckIn());
         System.out.println("Check-out : " + booking.getCheckOut());
         System.out.println();
