@@ -124,5 +124,26 @@ If user want to check his booking then when he enter's option `3` and selected M
 
 When user select option `4` the program will stop its execution.
 
+## OOPS Concepts Implementation
+
+1. **Abstraction**: 
+    - The project uses abstraction to hide complex implementation details and expose only the necessary functionalities. For example, the `BookingService` class provides methods to book rooms without exposing the underlying logic of how the booking is processed.
+
+2. **Encapsulation**: 
+    - Encapsulation is achieved by using private fields and public getter and setter methods in classes like `Hotel`, `Room`, `User`, etc. This ensures that the internal state of an object is protected from unauthorized access and modification.
+
+3. **Polymorphism**: 
+    - Polymorphism is implemented through method overriding and interface implementation. For instance, different types of rooms (e.g., SingleRoom, DoubleRoom) can override the `getPricePerNight` method to provide specific pricing logic.
+
+4. **Modularity**: 
+    - The project is organized into different packages such as `model`, `service`, and `util`, each containing related classes. This modular structure makes the codebase more manageable and promotes separation of concerns.
+
+These OOP principles help in creating a well-structured, maintainable, and scalable hotel booking system.
+
+
+## Contact
+If you have any questions or need further assistance, feel free to contact the project maintainer at rohan.jadhav511@gmail.com.
+
+Thank you for using our hotel booking system!
 
 
