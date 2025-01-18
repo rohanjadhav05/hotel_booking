@@ -26,10 +26,9 @@ public class BookingServiceImpl implements IBookingService{
      */
     @Override
     public Booking createBooking(User user, Room room, Hotel hotel, LocalDate checkIn, LocalDate checkOut) {
-        String bookingId = util.generateBookingId();
         long daysBetween = util.countDays(checkIn, checkOut);
         double bookingAmount = room.getPricePerNight() * daysBetween;
-        return new Booking(bookingId, user, room, hotel, bookingAmount, checkIn, checkOut);
+        return new Booking(user, room, hotel, bookingAmount, checkIn, checkOut);
     }
 
 

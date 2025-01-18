@@ -5,8 +5,8 @@ import java.time.LocalDate;
 /**
  * The Booking class represents a booking with a booking ID, user, room, hotel, check-in date, and check-out date.
  */
-public class Booking {
-    private final String bookingId;
+public class Booking extends BaseEntity {
+
     private final User user;
     private final Room room;
     private final Hotel hotel;
@@ -16,7 +16,6 @@ public class Booking {
 
     /**
      * Constructor for Booking class
-     * @param bookingId
      * @param user
      * @param room
      * @param hotel
@@ -24,22 +23,14 @@ public class Booking {
      * @param checkIn
      * @param checkOut
      */
-    public Booking(String bookingId, User user, Room room, Hotel hotel, Double bookingAmount, LocalDate checkIn, LocalDate checkOut) {
-        this.bookingId = bookingId;
+    public Booking(User user, Room room, Hotel hotel, Double bookingAmount, LocalDate checkIn, LocalDate checkOut) {
+        super();
         this.user = user;
         this.room = room;
         this.bookingAmount = bookingAmount;
         this.hotel = hotel;
         this.checkIn = checkIn;
         this.checkOut = checkOut;
-    }
-
-    /**
-     * Getters for booking ID
-     * @return bookingId
-     */
-    public String getBookingId() {
-        return bookingId;
     }
 
     /**

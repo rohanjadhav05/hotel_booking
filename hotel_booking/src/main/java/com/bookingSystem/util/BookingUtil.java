@@ -31,7 +31,7 @@ public class BookingUtil {
     }
 
     public void printBookingDetails(Booking booking){
-        System.out.println("Booking ID : " + booking.getBookingId());
+        System.out.println("Booking ID : " + booking.getId());
         System.out.println("Location : "+booking.getHotel().getLocation());
         System.out.println("Name : "+booking.getUser().getName());
         System.out.println("Hotel : " + booking.getHotel().getName());
