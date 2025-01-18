@@ -57,10 +57,17 @@ hotel_booking/
 |   |   |                   ├── Room.java
 |   |   |                   ├── User.java 
 │   │   │           ├── service
-|   |   |                   ├── BookingService.java
-|   |   |                   ├── HotelService.java
+│   │   │                   ├── impl
+│   │   │                         ├── BookingServiceImpl.java
+│   │   │                         ├── HotelServiceImpl.java
+│   │   │                         ├── RoomServiceImpl.java
+│   │   │                   ├── inter
+|   |   |                         ├── IBookingService.java
+|   |   |                         ├── IHotelService.java
+│   │   │                         ├── IRoomService.java
 │   │   │           └── util
 |   |   |                   ├── BookingUtil.java
+│   │   │                   ├── ExceptionUtil.java
 |   |   |       └── Main.java
 │   │   └── resources
 │   └── test

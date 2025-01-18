@@ -9,8 +9,11 @@ import com.bookingSystem.model.Booking;
 import com.bookingSystem.model.Hotel;
 import com.bookingSystem.model.Room;
 import com.bookingSystem.model.User;
-import com.bookingSystem.service.BookingService;
-import com.bookingSystem.service.HotelService;
+import com.bookingSystem.service.impl.BookingServiceImpl;
+import com.bookingSystem.service.impl.HotelServiceImpl;
+import com.bookingSystem.service.impl.RoomServiceImpl;
+import com.bookingSystem.util.BookingUtil;
+import com.bookingSystem.util.ExceptionUtil;
 
 /**
  * The Main class provides a simple command-line interface for the hotel booking system.
@@ -19,8 +22,11 @@ public class Main {
     private static final Scanner scanner = new Scanner(System.in);
     private static final List<Hotel> hotels = new ArrayList<>();
     private static final List<Booking> bookings = new ArrayList<>();
-    private static final HotelService hotelService = new HotelService();
-
+    private static final HotelServiceImpl hotelService = new HotelServiceImpl();
+    private static final BookingServiceImpl bookingServiceimpl = new BookingServiceImpl();
+    private static final ExceptionUtil exceptionUtil = new ExceptionUtil();
+    private static final RoomServiceImpl roomServiceImpl = new RoomServiceImpl();
+    private static final BookingUtil bookingUtil = new BookingUtil();
     /**
      * Main method to run the hotel booking system.
      * @param args
@@ -52,11 +58,7 @@ public class Main {
                     System.out.println("Exiting the system. Thank you!");
                 }
                 default -> {
-                    System.out.println("------------------------------------");
-                    System.out.println();
-                    System.out.println("Invalid choice. Please try again.");
-                    System.out.println();
-                    System.out.println("------------------------------------");
+                    exceptionUtil.invalidChoice();
                 }
             }
         }
@@ -70,16 +72,11 @@ public class Main {
         List<Hotel> matchingHotels = hotelService.findAllAvailbleHotels(hotels);
 
         if (matchingHotels.isEmpty()) {
-            System.out.println("------------------------------------");
-            System.out.println();
-            System.out.println("No hotels found");
-            System.out.println();
-            System.out.println("------------------------------------");
+            exceptionUtil.noHotelFound();
             return;
         }
 
-        System.out.println("------------------------------------");
-        System.out.println();
+        ExceptionUtil.printBefore();
         for (Hotel hotel : matchingHotels) {
             System.out.println("Hotel : " + hotel.getName()+" Location : "+hotel.getLocation());
             for (Room room : hotel.getRooms()) {
@@ -99,8 +96,7 @@ public class Main {
             System.out.println();
         }
 
-        System.out.println();
-        System.out.println("------------------------------------");
+        ExceptionUtil.printAfter();
     }
 
     /**
@@ -178,11 +174,7 @@ public class Main {
             city = availableCity.get(cityChoice - 1);
         }
         catch(Exception e){
-            System.out.println("------------------------------------");
-            System.out.println();
-            System.out.println("Invalid choice. Please try again.");
-            System.out.println();
-            System.out.println("------------------------------------");
+            exceptionUtil.invalidChoice();
             return;
         }
         System.out.print("Enter Check-in Date (YYYY-MM-DD) : ");
@@ -192,11 +184,7 @@ public class Main {
             checkInDate =  LocalDate.parse(scanner.nextLine());
         }
         catch(Exception e){
-            System.out.println("------------------------------------");
-            System.out.println();
-            System.out.println("Invalid Date Format");
-            System.out.println();
-            System.out.println("------------------------------------");
+            exceptionUtil.invalideDateFormat();
             return;
         }
 
@@ -207,49 +195,34 @@ public class Main {
             checkOutDate = LocalDate.parse(scanner.nextLine());
         }
         catch(Exception e){
-            System.out.println("------------------------------------");
-            System.out.println();
-            System.out.println("OOPS! Invalid Date Format");
-            System.out.println();
-            System.out.println("------------------------------------");
+            exceptionUtil.invalideDateFormat();
             return;
         }
 
         if (checkInDate.isAfter(checkOutDate) || checkInDate.isEqual(checkOutDate)) {
-            System.out.println("------------------------------------");
-            System.out.println();
-            System.out.println("Check-in date must be before the check-out date.");
-            System.out.println();
-            System.out.println("------------------------------------");
+            exceptionUtil.checkInDateExecpetion();
             return;
         }
 
         List<Hotel> matchingHotels = hotelService.findHotelsByCityAndAvailability(hotels, city, checkInDate, checkOutDate);
 
         if (matchingHotels.isEmpty()) {
-            System.out.println("------------------------------------");
-            System.out.println();
-            System.out.println("No hotels found in the specified city or date range.");
-            System.out.println();
-            System.out.println("------------------------------------");
+            exceptionUtil.noHotelFound();
             return;
         }
 
-        System.out.println("------------------------------------");
-        System.out.println();
+        ExceptionUtil.printBefore();
         System.out.println("Hotels available in " + city + " -> ");
 
         for (Hotel hotel : matchingHotels) {
             System.out.println("Hotel : " + hotel.getName());
             for (Room room : hotel.getRooms()) {
-                if (room.isAvailable(checkInDate, checkOutDate)) {
+                if (roomServiceImpl.isAvailable(room, checkInDate, checkOutDate)) {
                     System.out.println("    - Room Type : " + room.getRoomType() + ", Price : Rs " + room.getPricePerNight()+" per night");
                 }
             }
         }
-        System.out.println();
-        System.out.println("------------------------------------");
-
+        ExceptionUtil.printAfter();
         System.out.println("\n1. Book hotel");
         System.out.println("2. Back");
         System.out.print("Enter your choice: ");
@@ -266,11 +239,7 @@ public class Main {
             bookHotel(matchingHotels, checkInDate, checkOutDate);
         }
         else if(choice != 2){
-            System.out.println("------------------------------------");
-            System.out.println();
-            System.out.println("Invalid choice. Please try again.");
-            System.out.println();
-            System.out.println("------------------------------------");
+            exceptionUtil.invalidChoice();
         }
     }
 
@@ -286,26 +255,14 @@ public class Main {
         for (Booking booking : bookings) {
             if (booking.getUser().getName().equalsIgnoreCase(name)) {
                 found = true;
-                System.out.println("------------------------------------");
-                System.out.println();
-                System.out.println("Booking ID : " + booking.getBookingId());
-                System.out.println("Location : "+booking.getHotel().getLocation());
-                System.out.println("Hotel : " + booking.getHotel().getName());
-                System.out.println("Room Type : " + booking.getRoom().getRoomType());
-                System.out.println("Price : "+booking.getBookingAmount());
-                System.out.println("Check-in : " + booking.getCheckIn());
-                System.out.println("Check-out : " + booking.getCheckOut());
-                System.out.println();
-                System.out.println("------------------------------------");
+                ExceptionUtil.printBefore();
+                bookingUtil.printBookingDetails(booking);
+                ExceptionUtil.printAfter();
             }
         }
 
         if (!found) {
-            System.out.println("------------------------------------");
-            System.out.println();
-            System.out.println("No bookings found for " + name);
-            System.out.println();
-            System.out.println("------------------------------------");
+            exceptionUtil.noBookingFound(name);
         }
     }
 
@@ -324,19 +281,11 @@ public class Main {
         String contactInfo = scanner.nextLine();
 
         if(contactInfo.length() != 10){
-            System.out.println("------------------------------------");
-            System.out.println();
-            System.out.println("Invalid Mobile Number !!! Mobile number should be of 10 digits");
-            System.out.println();
-            System.out.println("------------------------------------");
+            exceptionUtil.invalidMobileNumber();
             return;
         }
         else if(!contactInfo.matches("[0-9]+")){
-            System.out.println("------------------------------------");
-            System.out.println();
-            System.out.println("Invalid Mobile Number !!! Mobile number should contain only digits");
-            System.out.println();
-            System.out.println("------------------------------------");
+            exceptionUtil.mobileNumberDigits();
             return;
         }
 
@@ -344,45 +293,61 @@ public class Main {
         for (int i = 0; i < matchingHotels.size(); i++) {
             System.out.println((i + 1) + ". " + matchingHotels.get(i).getName());
         }
-        System.out.print("Enter choice : ");
-        int hotelChoice = Integer.parseInt(scanner.nextLine());
-        Hotel selectedHotel = matchingHotels.get(hotelChoice - 1);
 
-        System.out.println("Select Room Type -> ");
-        List<Room> availableRooms = new ArrayList<>();
-        for (Room room : selectedHotel.getRooms()) {
-            if (room.isAvailable(checkInDate, checkOutDate)) {
-                availableRooms.add(room);
-            }
-        }
-        for (int i = 0; i < availableRooms.size(); i++) {
-            System.out.println((i + 1) + ". " + availableRooms.get(i).getRoomType());
-        }
         System.out.print("Enter choice : ");
-        int roomChoice = Integer.parseInt(scanner.nextLine());
-        Room selectedRoom = availableRooms.get(roomChoice - 1);
+        int hotelChoice = 0;
+        Hotel selectedHotel = null;
 
-        int index = selectedRoom.getIndexforAvailable(checkInDate, checkOutDate);
-        selectedRoom.findDifference(index, checkInDate, checkOutDate);
+        try{
+            hotelChoice = Integer.parseInt(scanner.nextLine());
+            selectedHotel = matchingHotels.get(hotelChoice - 1);
+        }catch(Exception e){
+            exceptionUtil.invalidChoice();
+            return;
+        }
         
-        User user = new User(name, contactInfo);
-        BookingService bookingService = new BookingService();
-        Booking booking = bookingService.createBooking(user, selectedRoom, selectedHotel, checkInDate, checkOutDate);
+        if(selectedHotel != null){
+            System.out.println("Select Room Type -> ");
+            List<Room> availableRooms = new ArrayList<>();
+            for (Room room : selectedHotel.getRooms()) {
+                if (roomServiceImpl.isAvailable(room, checkInDate, checkOutDate)) {
+                    availableRooms.add(room);
+                }
+            }
+            for (int i = 0; i < availableRooms.size(); i++) {
+                System.out.println((i + 1) + ". " + availableRooms.get(i).getRoomType());
+            }
 
-        bookings.add(booking);
+            System.out.print("Enter choice : ");
+            int roomChoice = -1;
+            Room selectedRoom = null;
+            
+            try{
+                roomChoice =  Integer.parseInt(scanner.nextLine());
+                selectedRoom = availableRooms.get(roomChoice - 1);
+            } 
+            catch(Exception e){ 
+                exceptionUtil.invalidChoice();
+                return;
+            }
 
-        System.out.println("------------------------------------");
-        System.out.println();
-        System.out.println("Hurry!!! Booking confirmed!");
-        System.out.println("Booking ID : " + booking.getBookingId());
-        System.out.println("Location : " + booking.getHotel().getLocation());
-        System.out.println("Hotel : " + booking.getHotel().getName());
-        System.out.println("Room Type : " + booking.getRoom().getRoomType());
-        System.out.println("Price : "+booking.getBookingAmount());
-        System.out.println("Check-in : " + booking.getCheckIn());
-        System.out.println("Check-out : " + booking.getCheckOut());
-        System.out.println();
-        System.out.println("------------------------------------");
+            int index = roomServiceImpl.getIndexforAvailable(selectedRoom, checkInDate, checkOutDate);
+            if(index == -1){
+                exceptionUtil.invalidChoice();
+                return;
+            }
+
+            roomServiceImpl.findDifference(selectedRoom, index, checkInDate, checkOutDate);
+            User user = new User(name, contactInfo);
+            Booking booking = bookingServiceimpl.createBooking(user, selectedRoom, selectedHotel, checkInDate, checkOutDate);
+            bookings.add(booking);
+
+            ExceptionUtil.printBefore();
+            System.out.println("Hurry!!! Booking confirmed!");
+            bookingUtil.printBookingDetails(booking);
+            ExceptionUtil.printAfter();
+        }
+        
     }
 
     
