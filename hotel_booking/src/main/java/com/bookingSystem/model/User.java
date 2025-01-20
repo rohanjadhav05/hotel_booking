@@ -3,7 +3,7 @@ package com.bookingSystem.model;
 /**
  * User class represents a user with a name and phone number.
  */
-public class User {
+public class User extends BaseEntity{
     private String name;
     private String number;
 
@@ -13,6 +13,7 @@ public class User {
      * @param number
      */
     public User(String name, String number) {
+        super();
         this.name = name;
         this.number = number;
     }

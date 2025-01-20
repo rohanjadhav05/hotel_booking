@@ -52,6 +52,7 @@ hotel_booking/
 │   │   │       └── bookingSystem
 │   │   │           ├── model
 |   |   |                   ├── Availability.java
+|   |   |                   ├── BaseEntity.java
 |   |   |                   ├── Booking.java
 |   |   |                   ├── Hotel.java
 |   |   |                   ├── Room.java
@@ -82,32 +83,31 @@ Below is the Entity relation diagram for the hotel booking system :
 
 ### Explanation of the Diagram
 
-1. `Availability` : Represents the availability status of a room for a specific date range. It  includes fields such as start date, end date, and a boolean indicating whether the room is available.
-2. `Booking` : Represents a booking made by a user. It includes details such as booking ID, user information, room information, hotel information, check-in date, and check-out date.  
-3. `Hotel` :  Represents a hotel. It includes details such as  name, location, and a list of rooms available in the hotel, here `Booking` class is having one to many relation with `Hotel` entity and `Hotel` is many to one relation with entity `Room`.
-4. `Room` : Represents a room in a hotel. It includes details such as room type, pricePerNight, availability status. Here Entity `Room` is having one to many relation with `Availability` entity 
-5. `User` : Represents a user of the system. It includes user details such as user ID, name, contact information, and booking history.
+1. `BaseEntity` :  This is an abstract root class for the Booking and User classes. It is used to generate a unique ID and record the creation time of the entity. The BaseEntity class ensures that every entity that extends it will have a unique identifier and a timestamp indicating when it was created.
+2. `Availability` : Represents the availability status of a room for a specific date range. It  includes fields such as start date, end date, and a boolean indicating whether the room is available.
+3. `Booking` : Represents a booking made by a user. It includes details such as booking ID, user information, room information, hotel information, check-in date, and check-out date.  
+4. `Hotel` :  Represents a hotel. It includes details such as  name, location, and a list of rooms available in the hotel, here `Booking` class is having one to many relation with `Hotel` entity and `Hotel` is many to one relation with entity `Room`.
+5. `Room` : Represents a room in a hotel. It includes details such as room type, pricePerNight, availability status. Here Entity `Room` is having one to many relation with `Availability` entity 
+6. `User` : Represents a user of the system. It includes user details such as user ID, name, contact information, and booking history.
 
 ## Functionalities Demo
 
-When you run the Main.java file you will see the following options 
+When you run the `Main.java` file, you will see the following options:
 
 ![alt text](image.png)
 
 ### 1. Checking Room Availability
-When the user enter's `1` to check room availability. The system will then display the available rooms. Below is a screenshot of the availability check process :
+When the user enters `1` to check room availability, the system will display the available rooms. Below is a screenshot of the availability check process :
 
 ![alt text](image-1.png)
 
 ### 2. Search hotel by city
-When the user enter's `2` to search hotel by city. The system will then give a choice to user 
-to select city's which is present in Database
+When the user enters `2` to search for a hotel by city, the system will provide a choice of cities that are present in the database :
 
 ![alt text](image-2.png)
 
 based on selected city suppose user enter's `1` and city `Mumbai` is selected then user need to enter the Check-in Date and Check-out Date in the correct format i.e `YYYY-MM-DD`,
-when user enter the check-in date and check-out date in correct format the system will check in 
-database do we have Hotel's have availability for those days if present will print the Hotel name with the room type available, check image for reference
+when user enter the check-in date and check-out date in correct format the system will check in database do we have Hotel's have availability for those days if present will print the Hotel name with the room type available, check image for reference
 
 ![alt text](image-3.png)
 
@@ -134,16 +134,23 @@ When user select option `4` the program will stop its execution.
 ## OOPS Concepts Implementation
 
 1. **Abstraction**: 
-    - The project uses abstraction to hide complex implementation details and expose only the necessary functionalities. For example, the `BookingService` class provides methods to book rooms without exposing the underlying logic of how the booking is processed.
+   - Created the abstract class `BaseEntity` and service layer interfaces which are implemented to achieve abstraction. This allows us to define common properties and methods that can be shared across multiple classes while hiding the implementation details.
 
 2. **Encapsulation**: 
-    - Encapsulation is achieved by using private fields and public getter and setter methods in classes like `Hotel`, `Room`, `User`, etc. This ensures that the internal state of an object is protected from unauthorized access and modification.
+   - Encapsulated the properties of classes by making them private and providing public getter and setter methods. This ensures that the internal state of an object is protected and can only be accessed or modified through controlled methods.
 
-3. **Polymorphism**: 
-    - Polymorphism is implemented through method overriding and interface implementation. For instance, different types of rooms (e.g., SingleRoom, DoubleRoom) can override the `getPricePerNight` method to provide specific pricing logic.
+3. **Inheritance**: 
+   - Added the `BaseEntity` class which is extended by other classes such as `Booking` and `User`. This allows these classes to inherit common properties and methods from `BaseEntity`, promoting code reuse and reducing redundancy.
 
-4. **Modularity**: 
+4. **Polymorphism**: 
+   - Implemented polymorphism through method overriding and interface implementation. For example, different service implementations (`BookingServiceImpl`, `HotelServiceImpl`, `RoomServiceImpl`) provide specific behaviors for the methods defined in their respective interfaces (`IBookingService`, `IHotelService`, `IRoomService`).
+
+5. **Modularity**: 
     - The project is organized into different packages such as `model`, `service`, and `util`, each containing related classes. This modular structure makes the codebase more manageable and promotes separation of concerns.
+
+6. **Composition**: 
+   - Used composition to build complex objects from simpler ones. For example, a `Hotel` object contains a list of `Room` objects, and a `Booking` object contains references to `User`, `Room`, and `Hotel` objects. This allows for a more modular and flexible design.
+ 
 
 These OOP principles help in creating a well-structured, maintainable, and scalable hotel booking system.
 
