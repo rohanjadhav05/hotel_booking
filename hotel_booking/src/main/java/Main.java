@@ -4,14 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import com.bookingSystem.factory.BookingFactory;
 import com.bookingSystem.model.Availability;
-import com.bookingSystem.model.Booking;
 import com.bookingSystem.model.Hotel;
+import com.bookingSystem.model.HotelBooking;
 import com.bookingSystem.model.Room;
 import com.bookingSystem.model.User;
-import com.bookingSystem.service.impl.BookingServiceImpl;
+import com.bookingSystem.service.impl.HotelBookingServiceImpl;
 import com.bookingSystem.service.impl.HotelServiceImpl;
 import com.bookingSystem.service.impl.RoomServiceImpl;
+import com.bookingSystem.service.inter.IBookingService;
 import com.bookingSystem.util.BookingUtil;
 import com.bookingSystem.util.ExceptionUtil;
 
@@ -21,10 +23,10 @@ import com.bookingSystem.util.ExceptionUtil;
 public class Main {
     private static final Scanner scanner = new Scanner(System.in);
     private static final List<Hotel> hotels = new ArrayList<>();
-    private static final List<Booking> bookings = new ArrayList<>();
+    private static final List<HotelBooking> bookings = new ArrayList<>();
     private static final HotelServiceImpl hotelService = new HotelServiceImpl();
-    private static final BookingServiceImpl bookingServiceimpl = new BookingServiceImpl();
-    private static final ExceptionUtil exceptionUtil = new ExceptionUtil();
+    private static final IBookingService<HotelBooking> hotelBookingServiceimpl = new HotelBookingServiceImpl();
+    private static final ExceptionUtil exceptionUtil = ExceptionUtil.getInstance();
     private static final RoomServiceImpl roomServiceImpl = new RoomServiceImpl();
     private static final BookingUtil bookingUtil = new BookingUtil();
     /**
@@ -252,7 +254,7 @@ public class Main {
         String name = scanner.nextLine();
         boolean found = false;
 
-        for (Booking booking : bookings) {
+        for (HotelBooking booking : bookings) {
             if (booking.getUser().getName().equalsIgnoreCase(name)) {
                 found = true;
                 ExceptionUtil.printBefore();
@@ -338,8 +340,10 @@ public class Main {
             }
 
             roomServiceImpl.findDifference(selectedRoom, index, checkInDate, checkOutDate);
+        
             User user = new User(name, contactInfo);
-            Booking booking = bookingServiceimpl.createBooking(user, selectedRoom, selectedHotel, checkInDate, checkOutDate);
+            HotelBooking book = BookingFactory.createHotelBooking(user, selectedHotel, selectedRoom, checkInDate, checkOutDate, index);
+            HotelBooking booking = (HotelBooking) hotelBookingServiceimpl.createBooking(user, book);
             bookings.add(booking);
 
             ExceptionUtil.printBefore();
@@ -348,7 +352,5 @@ public class Main {
             ExceptionUtil.printAfter();
         }
         
-    }
-
-    
+    }  
 }

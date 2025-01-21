@@ -2,8 +2,27 @@ package com.bookingSystem.util;
 
 /**
  * Exception Handeler Helper class to print the exception
+ * Singleton Design Pattern in used here
  */
 public class ExceptionUtil {
+    
+    private static ExceptionUtil instance;
+
+    /*
+     * private Constructor so that the instance will be created within the class itself
+     */
+    private ExceptionUtil(){};
+
+    /*
+     * static method which checks if instance has been created 
+     * if it not created will create one and return the new instance
+     */
+    public static ExceptionUtil getInstance(){
+        if(instance == null){
+            instance = new ExceptionUtil();
+        }
+        return instance;
+    }
     
     /**
      * will araise when user enter's invalid mobile number

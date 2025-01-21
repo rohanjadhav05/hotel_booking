@@ -1,76 +1,40 @@
 package com.bookingSystem.model;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * The Booking class represents a booking with a booking ID, user, room, hotel, check-in date, and check-out date.
  */
-public class Booking extends BaseEntity {
-
+public abstract class Booking extends BaseEntity{
     private final User user;
-    private final Room room;
-    private final Hotel hotel;
-    private final Double bookingAmount;
-    private final LocalDate checkIn;
-    private final LocalDate checkOut;
+    private final LocalDateTime bookindDate;
+    private final double bookingAmount;
 
     /**
-     * Constructor for Booking class
+     * 
      * @param user
-     * @param room
-     * @param hotel
-     * @param bookingAmount
-     * @param checkIn
-     * @param checkOut
      */
-    public Booking(User user, Room room, Hotel hotel, Double bookingAmount, LocalDate checkIn, LocalDate checkOut) {
+    public Booking(User user, double bookingAmount) {
         super();
         this.user = user;
-        this.room = room;
+        this.bookindDate = LocalDateTime.now();
         this.bookingAmount = bookingAmount;
-        this.hotel = hotel;
-        this.checkIn = checkIn;
-        this.checkOut = checkOut;
     }
-
+    
     /**
-     * Getters for user
-     * @return user object
+     * Get the user
+     * @return User Object
      */
     public User getUser() {
         return user;
     }
 
     /**
-     * Getters for room
-     * @return room Object
+     * Get the Booking Date
+     * @return
      */
-    public Room getRoom() {
-        return room;
-    }
-
-    /**
-     * Getters for hotel
-     * @return hotel object
-     */
-    public Hotel getHotel() {
-        return hotel;
-    }
-
-    /**
-     * Getters for check-in date
-     * @return checkIn
-     */
-    public LocalDate getCheckIn() {
-        return checkIn;
-    }
-
-    /**
-     * Getters for check-out date
-     * @return checkOut
-     */
-    public LocalDate getCheckOut() {
-        return checkOut;
+    public LocalDateTime getBookindDate() {
+        return bookindDate;
     }
 
     /**
