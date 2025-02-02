@@ -14,6 +14,8 @@ import com.bookingSystem.service.impl.HotelBookingServiceImpl;
 import com.bookingSystem.service.impl.HotelServiceImpl;
 import com.bookingSystem.service.impl.RoomServiceImpl;
 import com.bookingSystem.service.inter.IBookingService;
+import com.bookingSystem.service.inter.IHotelService;
+import com.bookingSystem.service.inter.IRoomService;
 import com.bookingSystem.util.BookingUtil;
 import com.bookingSystem.util.ExceptionUtil;
 
@@ -24,10 +26,11 @@ public class Main {
     private static final Scanner scanner = new Scanner(System.in);
     private static final List<Hotel> hotels = new ArrayList<>();
     private static final List<HotelBooking> bookings = new ArrayList<>();
-    private static final HotelServiceImpl hotelService = new HotelServiceImpl();
+    private static final IHotelService hotelService = new HotelServiceImpl();
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     private static final IBookingService<HotelBooking> hotelBookingServiceimpl = new HotelBookingServiceImpl();
     private static final ExceptionUtil exceptionUtil = ExceptionUtil.getInstance();
-    private static final RoomServiceImpl roomServiceImpl = new RoomServiceImpl();
+    private static final IRoomService roomServiceImpl = new RoomServiceImpl();
     private static final BookingUtil bookingUtil = new BookingUtil();
     /**
      * Main method to run the hotel booking system.
@@ -109,9 +112,9 @@ public class Main {
         Room room1 = new Room("Single", 10000);
         Room room2 = new Room("Double", 15000);
         Room room3 = new Room("Suite", 25000);
-        room1.addAvailability(LocalDate.of(2025, 1, 15), LocalDate.of(2025, 1, 20));
-        room2.addAvailability(LocalDate.of(2025, 1, 16), LocalDate.of(2025, 1, 22));
-        room3.addAvailability(LocalDate.of(2025, 1, 17), LocalDate.of(2025, 1, 22));
+        room1.addAvailability(LocalDate.of(2025, 2, 1), LocalDate.of(2025, 2, 3));
+        room2.addAvailability(LocalDate.of(2025, 2, 2), LocalDate.of(2025, 2, 4));
+        room3.addAvailability(LocalDate.of(2025, 2, 3), LocalDate.of(2025, 2, 5));
         hotel1.addRoom(room1);
         hotel1.addRoom(room2);
         hotel1.addRoom(room3);
@@ -119,8 +122,8 @@ public class Main {
         Hotel hotel2 = new Hotel("Raddison", "Pune");
         Room room4 = new Room("Single", 9000);
         Room room5 = new Room("Suite", 20000);
-        room4.addAvailability(LocalDate.of(2025, 1, 17), LocalDate.of(2025, 1, 21));
-        room5.addAvailability(LocalDate.of(2025, 1, 18), LocalDate.of(2025, 1, 25));
+        room4.addAvailability(LocalDate.of(2025, 2, 3), LocalDate.of(2025, 2, 5));
+        room5.addAvailability(LocalDate.of(2025, 2, 4), LocalDate.of(2025, 2, 9));
         hotel2.addRoom(room4);
         hotel2.addRoom(room5);
 
@@ -128,9 +131,9 @@ public class Main {
         Room room6 = new Room("Single", 12000);
         Room room7 = new Room("Double", 18000);
         Room room8 = new Room("Suite", 30000);
-        room6.addAvailability(LocalDate.of(2025, 1, 15), LocalDate.of(2025, 1, 20));
-        room7.addAvailability(LocalDate.of(2025, 1, 16), LocalDate.of(2025, 1, 22));    
-        room8.addAvailability(LocalDate.of(2025, 1, 17), LocalDate.of(2025, 1, 22));
+        room6.addAvailability(LocalDate.of(2025, 2, 1), LocalDate.of(2025, 2, 7));
+        room7.addAvailability(LocalDate.of(2025, 2, 2), LocalDate.of(2025, 2, 8));    
+        room8.addAvailability(LocalDate.of(2025, 2, 3), LocalDate.of(2025, 2, 9));
         hotel3.addRoom(room6);
         hotel3.addRoom(room7);
         hotel3.addRoom(room8);
@@ -139,9 +142,9 @@ public class Main {
         Room room9 = new Room("Single", 10000);
         Room room10 = new Room("Double", 15000);
         Room room11 = new Room("Suite", 25000);
-        room9.addAvailability(LocalDate.of(2025, 1, 15), LocalDate.of(2025, 1, 20));
-        room10.addAvailability(LocalDate.of(2025, 1, 16), LocalDate.of(2025, 1, 22));
-        room11.addAvailability(LocalDate.of(2025, 1, 17), LocalDate.of(2025, 1, 22));
+        room9.addAvailability(LocalDate.of(2025, 2, 1), LocalDate.of(2025, 2, 7));
+        room10.addAvailability(LocalDate.of(2025, 2, 2), LocalDate.of(2025, 2, 8));
+        room11.addAvailability(LocalDate.of(2025, 2, 3), LocalDate.of(2025, 2, 9));
         hotel4.addRoom(room9);
         hotel4.addRoom(room10);
         hotel4.addRoom(room11);
